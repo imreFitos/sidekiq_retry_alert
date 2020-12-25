@@ -1,0 +1,14 @@
+
+sidekiq_retry_alert.rb: Ruby script to send a slack message about sidekiq jobs that are retried too many times for comfort.
+
+Usage: sidekiq_retry_alert.rb /path/of/state_file retry_count_threshold
+
+Script is supposed to run frequently via cron or something similar, I recommend every 10-15m. It uses the temporary state file to record the last run so only changes in state will be reported. 
+
+retry_count_threshold: it's common that intermittent issues would make a sidekiq job fail and get retried, and Sidekiq can do that automatically. But if a job keeps failing over and over, it's good to know about it.
+
+The script depends on the REDIS_URL environmental variable to connect to the right Sidekiq redis queue. It also uses the SLACKWEBHOOK variable to send the alerts to.
+
+A second script sidekiq_retry_daily_report.rb runs a general report of how many different kinds of jobs are in the retry queue. It also uses REDIS_URL and SLACKWEBHOOK.
+
+imre Fitos
