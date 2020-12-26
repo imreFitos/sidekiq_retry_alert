@@ -40,11 +40,13 @@ end
 
 if current_retries.length
   slack("Daily report on production sidekiq retries:") 
-end
-current_retries.each do |queue,v|
-  v.each do |job, count|
-    slack("#{queue}: #{count} #{job}s are retried")
+  current_retries.each do |queue,v|
+    v.each do |job, count|
+      slack("#{queue}: #{count} #{job}s are retried")
+    end
   end
+else
+  slack("Daily report on production sidekiq retries found it clean.")
 end
 
 # end of file
