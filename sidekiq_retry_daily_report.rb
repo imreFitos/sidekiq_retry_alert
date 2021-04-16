@@ -38,7 +38,7 @@ retries.each do |job|
   current_retries[job.item["queue"]][job.item["wrapped"]] += 1
 end
 
-if current_retries.length
+if current_retries.length != 0
   slack("Daily report on production sidekiq retries:") 
   current_retries.each do |queue,v|
     v.each do |job, count|
